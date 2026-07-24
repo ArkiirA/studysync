@@ -1,0 +1,216 @@
+// =============================================================
+// StudySync — Bootstrap 5 theme
+// Design tokens (see README-DESIGN.md for the rationale)
+//   Primary   #2E3192  — "ink" indigo, calm/focused, not stock Bootstrap blue
+//   Secondary #6B6F8D  — muted slate for supporting text/UI
+//   Success   #12A594  — teal, used for "done"/active states (tasks, timers)
+//   Warning   #F5A623  — warm amber, the one accent color, used sparingly for CTAs
+//   Danger    #E4572E
+//   Light bg  #F6F7FB  — cool, slightly blue-tinted neutral (not cream)
+//   Dark text #14162B
+//   Display font: Sora (headings) · Body font: Inter
+// =============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+// ---- Bootstrap variable overrides (must come BEFORE the bootstrap import) ----
+$primary:   #2E3192;
+$secondary: #6B6F8D;
+$success:   #12A594;
+$info:      #3AAFD9;
+$warning:   #F5A623;
+$danger:    #E4572E;
+$light:     #F6F7FB;
+$dark:      #14162B;
+
+$body-bg:    $light;
+$body-color: $dark;
+
+$font-family-base:       'Inter', system-ui, -apple-system, sans-serif;
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
+$headings-font-family:   'Sora', 'Inter', sans-serif;
+$headings-font-weight:   600;
+$headings-color:         $dark;
+
+$border-radius:    .5rem;
+$border-radius-lg: .75rem;
+$border-radius-sm: .375rem;
+
+$btn-border-radius:    .5rem;
+$btn-font-weight:      600;
+$btn-padding-y:        .55rem;
+$btn-padding-x:        1.1rem;
+
+$card-border-radius: .875rem;
+$card-border-width:  0;
+$card-box-shadow:    0 2px 14px rgba(20, 22, 43, .06);
+
+$navbar-light-color: $secondary;
+$navbar-light-hover-color: $dark;
+$navbar-light-active-color: $primary;
+
+$link-decoration: none;
+$link-hover-color: $primary;
+
+$form-label-font-weight: 600;
+$input-border-color: #DDE0EC;
+$input-focus-border-color: lighten($primary, 25%);
+$input-focus-box-shadow: 0 0 0 .2rem rgba($primary, .12);
+
+// ---- Bootstrap ----
+@import "bootstrap/scss/bootstrap";
+
+// =============================================================
+// Custom StudySync styles
+// =============================================================
+
+.navbar-brand {
+  font-family: $headings-font-family;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: $dark !important;
+}
+
+// Single warm accent, reserved for primary calls-to-action
+.btn-accent {
+  background-color: $warning;
+  border-color: $warning;
+  color: $dark;
+  font-weight: 600;
+
+  &:hover, &:focus {
+    background-color: darken($warning, 8%);
+    border-color: darken($warning, 8%);
+    color: $dark;
+  }
+}
+
+.eyebrow {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: $secondary;
+}
+
+.tool-card {
+  transition: transform .15s ease, box-shadow .15s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(20, 22, 43, .10);
+  }
+}
+
+.tool-card .tool-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: .65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+// Signature hero element: a live-looking mock of a shared task list,
+// grounded in the actual Study Rooms feature rather than an abstract stat block.
+.hero-mock {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 20px 45px rgba(20, 22, 43, .12);
+  padding: 1.25rem 1.25rem 1rem;
+  max-width: 360px;
+}
+
+.hero-mock .hero-mock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .85rem;
+}
+
+.hero-mock .pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $success;
+  display: inline-block;
+  margin-right: .4rem;
+  box-shadow: 0 0 0 rgba(18, 165, 148, .5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(18, 165, 148, .45); }
+  70%  { box-shadow: 0 0 0 8px rgba(18, 165, 148, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(18, 165, 148, 0); }
+}
+
+.hero-mock .task-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .4rem 0;
+  font-size: .9rem;
+}
+
+.hero-mock .task-row.done span {
+  text-decoration: line-through;
+  color: $secondary;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot { animation: none; }
+  .tool-card { transition: none; }
+}
+
+// =============================================================
+// Flashcard flip effect (Phase 4)
+// =============================================================
+
+.flip-card {
+  perspective: 1200px;
+  height: 200px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: transform .5s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.flip-card-front {
+  background: #fff;
+  border: 1px solid #EDEEF6;
+}
+
+.flip-card-back {
+  background: $primary;
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
+}
